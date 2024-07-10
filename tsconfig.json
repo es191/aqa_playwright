@@ -1,0 +1,11 @@
+{
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"target": "ES2021",
+		"module": "Node16",
+		"lib": ["ES2021", "DOM"],
+		"strict": true,
+		"skipLibCheck": true,
+		"outDir": "dist"
+	}
+}

@@ -1,0 +1,25 @@
+{
+	"name": "aqa_playwright",
+	"version": "1.0.0",
+	"description": "Tests for pointschool",
+	"main": "index.ts",
+	"scripts": {
+		"test": "npx playwright test",
+		"test:headed": "npx playwright test --headed",
+		"test:specs": "npx playwright test specs",
+		"test:specs:headed": "npx playwright test specs --headed",
+		"test:specs:headless": "npx playwright test specs --headless",
+		"test:serial": "npx playwright test --project=headless-chromium && npx playwright test --project=headless-firefox && npx playwright test --project=headful-chromium"
+	},
+	"author": "Evgenii",
+	"license": "ISC",
+	"devDependencies": {
+		"@playwright/test": "^1.45.1",
+		"@types/node": "^20.14.10",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-prettier": "^5.1.3",
+		"playwright": "^1.45.1",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.5.3"
+	}
+}
