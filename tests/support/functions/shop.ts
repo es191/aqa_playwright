@@ -14,7 +14,7 @@ interface ShopActions {
 
 export const shop: ShopActions = {
 	async addProductsToCartWithSale(page: Page, numberOfProductsToAdd: number) {
-		const buttonSelector = ShopUI.btnBuyItem;
+		const buttonSelector: string = ShopUI.btnBuyItem;
 		await page.click(ShopUI.saleOnly);
 		await page.waitForSelector(buttonSelector);
 
@@ -23,7 +23,7 @@ export const shop: ShopActions = {
 			await page.waitForTimeout(600);
 		}
 
-		const basketCount = await page.$eval(ShopUI.itemNumbersBasket, (el) => {
+		const basketCount: number = await page.evaluate(ShopUI.itemNumbersBasket, (el: { textContent: string }) => {
 			if (!el || !el.textContent) {
 				return 0;
 			}
@@ -33,7 +33,7 @@ export const shop: ShopActions = {
 	},
 
 	async addProductsToNotEmptyCartWithSale(page: Page, numberOfProductsToAdd: number) {
-		const buttonSelector = ShopUI.btnBuyItem;
+		const buttonSelector: string = ShopUI.btnBuyItem;
 		await page.click(ShopUI.saleOnly);
 		await page.waitForSelector(buttonSelector);
 
@@ -42,7 +42,7 @@ export const shop: ShopActions = {
 			await page.waitForTimeout(600);
 		}
 
-		const basketCount = await page.$eval(ShopUI.itemNumbersBasket, (el) => {
+		const basketCount: number = await page.evaluate(ShopUI.itemNumbersBasket, (el: { textContent: string }) => {
 			if (!el || !el.textContent) {
 				return 0;
 			}
@@ -73,8 +73,8 @@ export const shop: ShopActions = {
 		await page.waitForSelector(ShopUI.popUpBasket);
 		const dropdownMenu = await page.waitForSelector(ShopUI.popUpBasket);
 		const basketPriceElement = await page.waitForSelector(ShopUI.priceBasket);
-		const basketPriceText = await basketPriceElement.innerText();
-		const basketPrice = parseFloat(basketPriceText.replace(/[^\d.-]/g, ''));
+		const basketPriceText: string = await basketPriceElement.innerText();
+		const basketPrice: number = parseFloat(basketPriceText.replace(/[^\d.-]/g, ''));
 
 		expect(await dropdownMenu.isVisible()).toBeTruthy();
 		expect(basketPrice).toBeGreaterThan(0);
@@ -84,14 +84,16 @@ export const shop: ShopActions = {
 		await page.waitForSelector(ShopUI.redirectToTheBasket);
 		await page.click(ShopUI.redirectToTheBasket);
 
-		const currentUrl = page.url();
+		const currentUrl: string = page.url();
 		expect(currentUrl).toBe(Data.basketUrl);
 	},
 
 	async clearCartIfNotEmpty(page: Page) {
 		await page.waitForSelector(ShopUI.itemNumbersBasket);
 
-		const basketCount = await page.$eval(ShopUI.itemNumbersBasket, (el) => parseInt(el.textContent || '0', 10));
+		const basketCount: number = await page.evaluate(ShopUI.itemNumbersBasket, (el: { textContent: string }) =>
+			parseInt(el.textContent || '0', 10),
+		);
 
 		if (basketCount > 0) {
 			await page.waitForSelector(ShopUI.dropdownBasket);
@@ -102,8 +104,9 @@ export const shop: ShopActions = {
 			console.log('The basket has been cleaned');
 
 			await page.waitForTimeout(1000);
-			const basketCountCleared = await page.$eval(ShopUI.itemNumbersBasket, (el) =>
-				parseInt(el.textContent || '0', 10),
+			const basketCountCleared: number = await page.evaluate(
+				ShopUI.itemNumbersBasket,
+				(el: { textContent: string }) => parseInt(el.textContent || '0', 10),
 			);
 			console.log(`Number of items in the basket: ${basketCountCleared}`);
 			expect(basketCountCleared).toBe(0);
@@ -112,7 +115,9 @@ export const shop: ShopActions = {
 
 	async addOneItemIfCartIsEmpty(page: Page) {
 		await page.waitForSelector(ShopUI.itemNumbersBasket);
-		const basketCount = await page.$eval(ShopUI.itemNumbersBasket, (el) => parseInt(el.textContent || '0', 10));
+		const basketCount: number = await page.evaluate(ShopUI.itemNumbersBasket, (el: { textContent: string }) =>
+			parseInt(el.textContent || '0', 10),
+		);
 		if (basketCount == 0) {
 			await page.waitForSelector(ShopUI.saleOnly);
 			await page.click(ShopUI.saleOnly);
@@ -120,8 +125,9 @@ export const shop: ShopActions = {
 			await page.click(ShopUI.btnBuyItem);
 		}
 		await page.waitForTimeout(1000);
-		const basketCountUpdated = await page.$eval(ShopUI.itemNumbersBasket, (el) =>
-			parseInt(el.textContent || '0', 10),
+		const basketCountUpdated: number = await page.evaluate(
+			ShopUI.itemNumbersBasket,
+			(el: { textContent: string }) => parseInt(el.textContent || '0', 10),
 		);
 		console.log(`Number of items in the basket: ${basketCountUpdated}`);
 		expect(basketCountUpdated).toBe(1);
