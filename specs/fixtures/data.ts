@@ -1,14 +1,11 @@
-const baseUrl = 'https://enotes.pointschool.ru/';
+class Data {
+	static baseUrl: string = process.env.BASE || '';
+	static loginUrl: string = `${Data.baseUrl}/login`;
+	static basketUrl: string = `${Data.baseUrl}/basket`;
+	static clearBasketUrl: string = `${Data.baseUrl}/basket/clear`;
 
-export const data = {
-	url: {
-		baseUrl,
-		loginUrl: `${baseUrl}login`,
-		basketUrl: `${baseUrl}basket`,
-		clearBasketUrl: `${baseUrl}basket/clear`,
-	},
-	user: {
-		login: 'test',
-		password: 'test',
-	},
-};
+	static userLogin: string = process.env.LOGIN || '';
+	static userPassword: string = process.env.PASSWORD || '';
+}
+
+export default Data;

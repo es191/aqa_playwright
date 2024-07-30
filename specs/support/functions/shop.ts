@@ -1,11 +1,11 @@
 import { Page, expect } from '@playwright/test';
-import { d } from '../../fixtures';
-import { e } from '../elements';
+import ShopUI from '../elements/shopUI';
+import Data from '../../fixtures/data';
 
 export const shop = {
 	async addProductsToCartWithSale(page: Page, numberOfProductsToAdd: number) {
-		const buttonSelector = e.shopUI.btnBuyItem;
-		await page.click(e.shopUI.saleOnly);
+		const buttonSelector = ShopUI.btnBuyItem;
+		await page.click(ShopUI.saleOnly);
 		await page.waitForSelector(buttonSelector);
 
 		for (let i = 0; i < numberOfProductsToAdd; i++) {
@@ -13,7 +13,7 @@ export const shop = {
 			await page.waitForTimeout(600);
 		}
 
-		const basketCount = await page.$eval(e.shopUI.itemNumbersBasket, (el) => {
+		const basketCount = await page.$eval(ShopUI.itemNumbersBasket, (el) => {
 			if (!el || !el.textContent) {
 				return 0;
 			}
@@ -23,8 +23,8 @@ export const shop = {
 	},
 
 	async addProductsToNotEmptyCartWithSale(page: Page, numberOfProductsToAdd: number) {
-		const buttonSelector = e.shopUI.btnBuyItem;
-		await page.click(e.shopUI.saleOnly);
+		const buttonSelector = ShopUI.btnBuyItem;
+		await page.click(ShopUI.saleOnly);
 		await page.waitForSelector(buttonSelector);
 
 		for (let i = 0; i < numberOfProductsToAdd; i++) {
@@ -32,7 +32,7 @@ export const shop = {
 			await page.waitForTimeout(600);
 		}
 
-		const basketCount = await page.$eval(e.shopUI.itemNumbersBasket, (el) => {
+		const basketCount = await page.$eval(ShopUI.itemNumbersBasket, (el) => {
 			if (!el || !el.textContent) {
 				return 0;
 			}
@@ -42,12 +42,12 @@ export const shop = {
 	},
 
 	async addProductsToCartWithoutSale(page: Page) {
-		await page.waitForSelector(e.shopUI.itemsWithoutSale);
-		const allItemsWithoutSale = await page.$$(e.shopUI.itemsWithoutSale);
+		await page.waitForSelector(ShopUI.itemsWithoutSale);
+		const allItemsWithoutSale = await page.$$(ShopUI.itemsWithoutSale);
 
 		if (allItemsWithoutSale.length > 0) {
 			const firstNonDiscountedItem = allItemsWithoutSale[0];
-			const buyButton = await firstNonDiscountedItem.$(e.shopUI.btnBuyItem);
+			const buyButton = await firstNonDiscountedItem.$(ShopUI.btnBuyItem);
 
 			if (buyButton) {
 				await buyButton.click();
@@ -57,12 +57,12 @@ export const shop = {
 	},
 
 	async openBasketIcon(page: Page) {
-		await page.waitForSelector(e.shopUI.dropdownBasket);
-		await page.click(e.shopUI.dropdownBasket);
+		await page.waitForSelector(ShopUI.dropdownBasket);
+		await page.click(ShopUI.dropdownBasket);
 
-		await page.waitForSelector(e.shopUI.popUpBasket);
-		const dropdownMenu = await page.waitForSelector(e.shopUI.popUpBasket);
-		const basketPriceElement = await page.waitForSelector(e.shopUI.priceBasket);
+		await page.waitForSelector(ShopUI.popUpBasket);
+		const dropdownMenu = await page.waitForSelector(ShopUI.popUpBasket);
+		const basketPriceElement = await page.waitForSelector(ShopUI.priceBasket);
 		const basketPriceText = await basketPriceElement.innerText();
 		const basketPrice = parseFloat(basketPriceText.replace(/[^\d.-]/g, ''));
 
@@ -71,28 +71,28 @@ export const shop = {
 	},
 
 	async redirectToTheBasket(page: Page) {
-		await page.waitForSelector(e.shopUI.redirectToTheBasket);
-		await page.click(e.shopUI.redirectToTheBasket);
+		await page.waitForSelector(ShopUI.redirectToTheBasket);
+		await page.click(ShopUI.redirectToTheBasket);
 
 		const currentUrl = page.url();
-		expect(currentUrl).toBe(d.data.url.basketUrl);
+		expect(currentUrl).toBe(Data.basketUrl);
 	},
 
 	async clearCartIfNotEmpty(page: Page) {
-		await page.waitForSelector(e.shopUI.itemNumbersBasket);
+		await page.waitForSelector(ShopUI.itemNumbersBasket);
 
-		const basketCount = await page.$eval(e.shopUI.itemNumbersBasket, (el) => parseInt(el.textContent || '0', 10));
+		const basketCount = await page.$eval(ShopUI.itemNumbersBasket, (el) => parseInt(el.textContent || '0', 10));
 
 		if (basketCount > 0) {
-			await page.waitForSelector(e.shopUI.dropdownBasket);
-			await page.click(e.shopUI.dropdownBasket);
+			await page.waitForSelector(ShopUI.dropdownBasket);
+			await page.click(ShopUI.dropdownBasket);
 
-			await page.waitForSelector(e.shopUI.clearBasket);
-			await page.click(e.shopUI.clearBasket);
+			await page.waitForSelector(ShopUI.clearBasket);
+			await page.click(ShopUI.clearBasket);
 			console.log('The basket has been cleaned');
 
 			await page.waitForTimeout(1000);
-			const basketCountCleared = await page.$eval(e.shopUI.itemNumbersBasket, (el) =>
+			const basketCountCleared = await page.$eval(ShopUI.itemNumbersBasket, (el) =>
 				parseInt(el.textContent || '0', 10),
 			);
 			console.log(`Number of items in the basket: ${basketCountCleared}`);
@@ -101,16 +101,16 @@ export const shop = {
 	},
 
 	async addOneItemIfCartIsEmpty(page: Page) {
-		await page.waitForSelector(e.shopUI.itemNumbersBasket);
-		const basketCount = await page.$eval(e.shopUI.itemNumbersBasket, (el) => parseInt(el.textContent || '0', 10));
+		await page.waitForSelector(ShopUI.itemNumbersBasket);
+		const basketCount = await page.$eval(ShopUI.itemNumbersBasket, (el) => parseInt(el.textContent || '0', 10));
 		if (basketCount == 0) {
-			await page.waitForSelector(e.shopUI.saleOnly);
-			await page.click(e.shopUI.saleOnly);
-			await page.waitForSelector(e.shopUI.itemsWithSale);
-			await page.click(e.shopUI.btnBuyItem);
+			await page.waitForSelector(ShopUI.saleOnly);
+			await page.click(ShopUI.saleOnly);
+			await page.waitForSelector(ShopUI.itemsWithSale);
+			await page.click(ShopUI.btnBuyItem);
 		}
 		await page.waitForTimeout(1000);
-		const basketCountUpdated = await page.$eval(e.shopUI.itemNumbersBasket, (el) =>
+		const basketCountUpdated = await page.$eval(ShopUI.itemNumbersBasket, (el) =>
 			parseInt(el.textContent || '0', 10),
 		);
 		console.log(`Number of items in the basket: ${basketCountUpdated}`);

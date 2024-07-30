@@ -1,14 +1,16 @@
-export const shopUI = {
-	dropdownBasket: '#dropdownBasket',
-	containerBasket: '#basketContainer',
-	itemNumbersBasket: '.basket-count-items',
-	clearBasket: '.actionClearBasket',
-	itemSearch: 'filterSearch',
-	saleOnly: '#gridCheck',
-	itemsWithoutSale: '.note-item.card.h-100:not(.hasDiscount)',
-	itemsWithSale: '.note-item.card.h-100.hasDiscount',
-	btnBuyItem: '.actionBuyProduct',
-	popUpBasket: '.dropdown-menu.show',
-	priceBasket: '.basket_price',
-	redirectToTheBasket: '.btn-primary.btn-sm',
-};
+class ShopUI {
+	static dropdownBasket: string = '#dropdownBasket';
+	static containerBasket: string = '#basketContainer';
+	static itemNumbersBasket: string = '.basket-count-items';
+	static clearBasket: string = '.actionClearBasket';
+	static itemSearch: string = 'filterSearch';
+	static saleOnly: string = '#gridCheck';
+	static itemsWithoutSale: string = '.note-item.card.h-100:not(.hasDiscount)';
+	static itemsWithSale: string = '.note-item.card.h-100.hasDiscount';
+	static btnBuyItem: string = '.actionBuyProduct';
+	static popUpBasket: string = '.dropdown-menu.show';
+	static priceBasket: string = '.basket_price';
+	static redirectToTheBasket: string = '.btn-primary.btn-sm';
+}
+
+export default ShopUI;

@@ -6,7 +6,7 @@ test.describe('To add 8 items with sale', () => {
 		await f.auth.loginWeb(page);
 		await f.shop.clearCartIfNotEmpty(page);
 	});
-	test('Test 1', async ({ page }) => {
+	test('Test 1', async function ({ page }) {
 		await f.shop.addProductsToCartWithSale(page, 8);
 		await f.shop.openBasketIcon(page);
 		await f.shop.redirectToTheBasket(page);

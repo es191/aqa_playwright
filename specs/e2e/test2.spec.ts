@@ -7,7 +7,7 @@ test.describe('To add 7 items and 1 item with sale is already in the basket', ()
 		await f.shop.clearCartIfNotEmpty(page);
 		await f.shop.addOneItemIfCartIsEmpty(page);
 	});
-	test('Test 2', async ({ page }) => {
+	test('Test 2', async function ({ page }) {
 		await f.shop.addProductsToNotEmptyCartWithSale(page, 7);
 		await f.shop.openBasketIcon(page);
 		await f.shop.redirectToTheBasket(page);

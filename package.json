@@ -5,11 +5,7 @@
 	"main": "index.ts",
 	"scripts": {
 		"test": "npx playwright test",
-		"test:headed": "npx playwright test --headed",
-		"test:specs": "npx playwright test specs",
-		"test:specs:headed": "npx playwright test specs --headed",
-		"test:specs:headless": "npx playwright test specs --headless",
-		"test:serial": "npx playwright test --project=headless-chromium && npx playwright test --project=headless-firefox && npx playwright test --project=headful-chromium"
+		"test:headed": "npx playwright test --headed"
 	},
 	"author": "Evgenii",
 	"license": "ISC",

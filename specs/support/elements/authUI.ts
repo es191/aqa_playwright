@@ -1,7 +1,9 @@
-export const authUI = {
-	linkLogin: 'a[href="/login"]',
-	loginClient: '#loginform-username',
-	passwordClient: '#loginform-password',
-	btnRememberMe: '#loginform-rememberme',
-	btnLogin: '.btn',
-};
+class AuthUI {
+	static linkLogin: string = 'a[href="/login"]';
+	static loginClient: string = '#loginform-username';
+	static passwordClient: string = '#loginform-password';
+	static btnRememberMe: string = '#loginform-rememberme';
+	static btnLogin: string = '.btn';
+}
+
+export default AuthUI;
