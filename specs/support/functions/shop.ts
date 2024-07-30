@@ -2,7 +2,17 @@ import { Page, expect } from '@playwright/test';
 import ShopUI from '../elements/shopUI';
 import Data from '../../fixtures/data';
 
-export const shop = {
+interface ShopActions {
+	addProductsToCartWithSale(page: Page, numberOfProductsToAdd: number): Promise<void>;
+	addProductsToNotEmptyCartWithSale(page: Page, numberOfProductsToAdd: number): Promise<void>;
+	addProductsToCartWithoutSale(page: Page): Promise<void>;
+	openBasketIcon(page: Page): Promise<void>;
+	redirectToTheBasket(page: Page): Promise<void>;
+	clearCartIfNotEmpty(page: Page): Promise<void>;
+	addOneItemIfCartIsEmpty(page: Page): Promise<void>;
+}
+
+export const shop: ShopActions = {
 	async addProductsToCartWithSale(page: Page, numberOfProductsToAdd: number) {
 		const buttonSelector = ShopUI.btnBuyItem;
 		await page.click(ShopUI.saleOnly);

@@ -3,7 +3,11 @@ import AuthUI from '../elements/authUI';
 import ShopUI from '../elements/shopUI';
 import Data from '../../fixtures/data';
 
-export const auth = {
+interface AuthAction {
+	loginWeb(page: Page): Promise<void>;
+}
+
+export const auth: AuthAction = {
 	async loginWeb(page: Page) {
 		await page.goto(Data.baseUrl);
 		await page.click(AuthUI.linkLogin);
