@@ -1,15 +1,18 @@
 import { test } from '@playwright/test';
-import { f } from '../support/functions';
+import { Auth } from '../support/functions/auth';
+import { Shop } from '../support/functions/shop';
 
 test.describe('To add 7 items and 1 item with sale is already in the basket', () => {
+	const auth = new Auth();
+	const shop = new Shop();
 	test.beforeEach(async ({ page }) => {
-		await f.auth.loginWeb(page);
-		await f.shop.clearCartIfNotEmpty(page);
-		await f.shop.addOneItemIfCartIsEmpty(page);
+		await auth.loginWeb(page);
+		await shop.clearCartIfNotEmpty(page);
+		await shop.addOneItemIfCartIsEmpty(page);
 	});
 	test('Test 2', async function ({ page }) {
-		await f.shop.addProductsToNotEmptyCartWithSale(page, 7);
-		await f.shop.openBasketIcon(page);
-		await f.shop.redirectToTheBasket(page);
+		await shop.addProductsToNotEmptyCartWithSale(page, 7);
+		await shop.openBasketIcon(page);
+		await shop.redirectToTheBasket(page);
 	});
 });
