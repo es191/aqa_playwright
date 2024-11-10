@@ -1,19 +1,9 @@
 import { Page, expect } from '@playwright/test';
 import ShopUI from '../elements/shopUI';
-import Data from '../../fixtures/data';
+import { testData } from '../../fixtures/testData';
 
-interface ShopActions {
-	addProductsToCartWithSale(page: Page, numberOfProductsToAdd: number): Promise<void>;
-	addProductsToNotEmptyCartWithSale(page: Page, numberOfProductsToAdd: number): Promise<void>;
-	addProductsToCartWithoutSale(page: Page): Promise<void>;
-	openBasketIcon(page: Page): Promise<void>;
-	redirectToTheBasket(page: Page): Promise<void>;
-	clearCartIfNotEmpty(page: Page): Promise<void>;
-	addOneItemIfCartIsEmpty(page: Page): Promise<void>;
-}
-
-export const shop: ShopActions = {
-	async addProductsToCartWithSale(page: Page, numberOfProductsToAdd: number) {
+export class Shop {
+	async addProductsToCartWithSale(page: Page, numberOfProductsToAdd: number): Promise<void> {
 		const buttonSelector: string = ShopUI.btnBuyItem;
 		await page.click(ShopUI.saleOnly);
 		await page.waitForSelector(buttonSelector);
@@ -30,9 +20,9 @@ export const shop: ShopActions = {
 			return parseInt(el.textContent.trim(), 10);
 		});
 		expect(basketCount).toBe(numberOfProductsToAdd);
-	},
+	}
 
-	async addProductsToNotEmptyCartWithSale(page: Page, numberOfProductsToAdd: number) {
+	async addProductsToNotEmptyCartWithSale(page: Page, numberOfProductsToAdd: number): Promise<void> {
 		const buttonSelector: string = ShopUI.btnBuyItem;
 		await page.click(ShopUI.saleOnly);
 		await page.waitForSelector(buttonSelector);
@@ -49,7 +39,7 @@ export const shop: ShopActions = {
 			return parseInt(el.textContent.trim(), 10);
 		});
 		expect(basketCount).toBe(numberOfProductsToAdd + 1);
-	},
+	}
 
 	async addProductsToCartWithoutSale(page: Page) {
 		await page.waitForSelector(ShopUI.itemsWithoutSale);
@@ -64,9 +54,9 @@ export const shop: ShopActions = {
 			}
 		}
 		await page.waitForTimeout(1000);
-	},
+	}
 
-	async openBasketIcon(page: Page) {
+	async openBasketIcon(page: Page): Promise<void> {
 		await page.waitForSelector(ShopUI.dropdownBasket);
 		await page.click(ShopUI.dropdownBasket);
 
@@ -78,17 +68,17 @@ export const shop: ShopActions = {
 
 		expect(await dropdownMenu.isVisible()).toBeTruthy();
 		expect(basketPrice).toBeGreaterThan(0);
-	},
+	}
 
-	async redirectToTheBasket(page: Page) {
+	async redirectToTheBasket(page: Page): Promise<void> {
 		await page.waitForSelector(ShopUI.redirectToTheBasket);
 		await page.click(ShopUI.redirectToTheBasket);
 
 		const currentUrl: string = page.url();
-		expect(currentUrl).toBe(Data.basketUrl);
-	},
+		expect(currentUrl).toBe(testData.basketUrl);
+	}
 
-	async clearCartIfNotEmpty(page: Page) {
+	async clearCartIfNotEmpty(page: Page): Promise<void> {
 		await page.waitForSelector(ShopUI.itemNumbersBasket);
 
 		const basketCount: number = await page.evaluate(ShopUI.itemNumbersBasket, (el: { textContent: string }) =>
@@ -111,9 +101,9 @@ export const shop: ShopActions = {
 			console.log(`Number of items in the basket: ${basketCountCleared}`);
 			expect(basketCountCleared).toBe(0);
 		}
-	},
+	}
 
-	async addOneItemIfCartIsEmpty(page: Page) {
+	async addOneItemIfCartIsEmpty(page: Page): Promise<void> {
 		await page.waitForSelector(ShopUI.itemNumbersBasket);
 		const basketCount: number = await page.evaluate(ShopUI.itemNumbersBasket, (el: { textContent: string }) =>
 			parseInt(el.textContent || '0', 10),
@@ -131,5 +121,5 @@ export const shop: ShopActions = {
 		);
 		console.log(`Number of items in the basket: ${basketCountUpdated}`);
 		expect(basketCountUpdated).toBe(1);
-	},
-};
+	}
+}
