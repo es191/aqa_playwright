@@ -1,4 +1,5 @@
 import { defineConfig } from '@playwright/test';
+import { devices } from '@playwright/test';
 
 export default defineConfig({
 	testDir: './tests/e2e',
@@ -8,4 +9,18 @@ export default defineConfig({
 		headless: false,
 		viewport: { width: 1920, height: 1080 },
 	},
+	projects: [
+		{
+			name: 'chromium',
+			use: { ...devices['Desktop Chrome'] },
+		},
+		{
+			name: 'firefox',
+			use: { ...devices['Desktop Firefox'] },
+		},
+		{
+			name: 'webkit',
+			use: { ...devices['Desktop Safari'] },
+		},
+	],
 });
